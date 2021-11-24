@@ -11,6 +11,7 @@
 //根据图片获取图片的主色调
 -(void)getSubjectColor:(void(^)(UIColor*))callBack {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // 第一步 先把图片缩小 加快计算速度. 但越小结果误差可能越大
         int bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
         CGSize thumbSize = CGSizeMake(40, 40);
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -18,6 +19,8 @@
         CGRect drawRect = CGRectMake(0, 0, thumbSize.width, thumbSize.height);
         CGContextDrawImage(context, drawRect, self.CGImage);
         CGColorSpaceRelease(colorSpace);
+        
+        // 第二步 取每个点的像素值
         unsigned char* data = CGBitmapContextGetData (context);
         if (data == NULL) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -40,6 +43,8 @@
             }
         }
         CGContextRelease(context);
+        
+        //第三步 找到出现次数最多的那个颜色
         NSEnumerator *enumerator = [cls objectEnumerator];
         NSArray *curColor = nil;
         NSArray *MaxColor = nil;

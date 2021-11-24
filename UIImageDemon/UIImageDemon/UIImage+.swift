@@ -17,12 +17,21 @@ public extension UIImage {
             }
         }
         let bitmapInfo = CGBitmapInfo(rawValue: 0).rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
+          
         // 第一步 先把图片缩小 加快计算速度. 但越小结果误差可能越大
         let thumbSize = CGSize(width: 40 , height: 40)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        guard let context = CGContext(data: nil, width: Int(thumbSize.width),height: Int(thumbSize.height),bitsPerComponent: 8,bytesPerRow: Int(thumbSize.width) * 4 , space: colorSpace,bitmapInfo: bitmapInfo) else { return completion(nil) }
+        guard let context = CGContext(data: nil,
+                                      width: Int(thumbSize.width),
+                                      height: Int(thumbSize.height),
+                                      bitsPerComponent: 8,
+                                      bytesPerRow: Int(thumbSize.width) * 4 ,
+                                      space: colorSpace,
+                                      bitmapInfo: bitmapInfo) else { return completion(nil) }
+          
         let drawRect = CGRect(x: 0, y: 0, width: thumbSize.width, height: thumbSize.height)
         context.draw(self.cgImage! , in: drawRect)
+          
         // 第二步 取每个点的像素值
         if context.data == nil{ return completion(nil)}
         let countedSet = NSCountedSet(capacity: Int(thumbSize.width * thumbSize.height))
@@ -40,6 +49,7 @@ public extension UIImage {
                 }
             }
         }
+          
         //第三步 找到出现次数最多的那个颜色
         let enumerator = countedSet.objectEnumerator()
         var maxColor: [Int] = []
