@@ -12,9 +12,7 @@
 -(void)getSubjectColor:(void(^)(UIColor*))callBack {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         int bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
-        CGFloat thumbWith = MIN(40, self.size.width / 10);
-        CGFloat thumbHeight = MIN(40, self.size.height / 10);
-        CGSize thumbSize = CGSizeMake(thumbWith, thumbHeight);
+        CGSize thumbSize = CGSizeMake(40, 40);
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef context = CGBitmapContextCreate(NULL,thumbSize.width,thumbSize.height, 8, thumbSize.width*4, colorSpace,bitmapInfo);
         CGRect drawRect = CGRectMake(0, 0, thumbSize.width, thumbSize.height);

@@ -48,11 +48,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate , UINavi
                     self.view.backgroundColor = subjectColor
             })
             
-            // OC
-            selectedImage.getSubjectColor {[unowned self] color in
-                guard let subjectColor = color else { return }
-                self.view.backgroundColor = subjectColor
-            }
+//            // OC
+//            selectedImage.getSubjectColor {[unowned self] color in
+//                guard let subjectColor = color else { return }
+//                self.view.backgroundColor = subjectColor
+//            }
         }
     }
 }
